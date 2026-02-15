@@ -1,0 +1,25 @@
+# Render Blueprint - CodeBlue AI
+# One-click deploy: connect this repo at https://dashboard.render.com/blueprints
+# Then set VITE_API_URL on the static site to your backend URL (e.g. https://codeblue-api.onrender.com)
+
+services:
+  # Backend API (Node)
+  - type: web
+    runtime: node
+    name: codeblue-api
+    plan: free
+    buildCommand: npm run install:all
+    startCommand: node backend/server.js
+    healthCheckPath: /health
+
+  # Frontend (Static Site)
+  - type: web
+    runtime: static
+    name: codeblue-app
+    rootDir: dashboard
+    buildCommand: npm install && npm run build
+    staticPublishPath: dashboard/dist
+    envVars:
+      # Set this in Render Dashboard to your backend URL after first deploy, e.g. https://codeblue-api.onrender.com
+      - key: VITE_API_URL
+        sync: false

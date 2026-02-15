@@ -103,7 +103,7 @@ CodeblueAI/
 
 The app is ready to deploy: backend uses `PORT` from the environment; the frontend uses `VITE_API_URL` for the API base URL.
 
-**Quick option:** Use [Render](https://render.com) (free tier) — deploy backend as a **Web Service** and frontend as a **Static Site**. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for step-by-step instructions (Render, Vercel, Railway).
+**One-click:** Use [Render Blueprint](https://dashboard.render.com/blueprints) — connect this repo and Render creates both backend and frontend from **render.yaml**. Set `VITE_API_URL` on the frontend to your backend URL. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for full steps and other options (Vercel, Railway).
 
 ---
 

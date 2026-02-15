@@ -1,10 +1,29 @@
 # 🚀 Deploy CodeBlue AI
 
-You can deploy the **backend** and **frontend** separately or together. Free-tier options below.
+You can deploy the **backend** and **frontend** together (Blueprint) or step-by-step. Free-tier options below.
 
 ---
 
-## Option 1: Render (recommended — free tier)
+## One-click deploy (Render Blueprint)
+
+The repo includes a **render.yaml** Blueprint so Render can create both services from one flow.
+
+1. Go to [Render Dashboard](https://dashboard.render.com) → **New** → **Blueprint**.
+2. Connect **GitHub** and select the **CodeblueAI** repo (https://github.com/kiran797979/CodeblueAI).
+3. Render will detect `render.yaml` and create two services:
+   - **codeblue-api** (backend)
+   - **codeblue-app** (frontend)
+4. After the first deploy finishes, open the **codeblue-api** service and copy its URL (e.g. `https://codeblue-api.onrender.com`).
+5. Open the **codeblue-app** service → **Environment** → add:
+   - **Key:** `VITE_API_URL`
+   - **Value:** your backend URL from step 4 (e.g. `https://codeblue-api.onrender.com`)
+6. Click **Save Changes**; Render will redeploy the frontend. Once done, open the frontend URL — the app will work end-to-end.
+
+**Note:** Free-tier backend may spin down after inactivity; the first request can take ~30 seconds.
+
+---
+
+## Option 1: Render (manual — free tier)
 
 [Render](https://render.com) can host both backend and frontend. Connect your GitHub repo: https://github.com/kiran797979/CodeblueAI
 
