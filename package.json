@@ -1,0 +1,21 @@
+{
+  "name": "codeblue-ai",
+  "version": "1.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kiran797979/CodeblueAI.git"
+  },
+  "scripts": {
+    "start": "concurrently -n backend,dashboard -c blue,green \"npm run start:backend\" \"npm run start:dashboard\"",
+    "start:backend": "cd backend && node server.js",
+    "start:dashboard": "cd dashboard && npm run dev",
+    "build:dashboard": "cd dashboard && npm run build",
+    "install:all": "npm install && cd backend && npm install && cd ../dashboard && npm install",
+    "update-readme": "node scripts/update-readme.js",
+    "push": "node scripts/push-to-github.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

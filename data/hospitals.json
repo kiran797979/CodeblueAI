@@ -1,0 +1,47 @@
+[
+  {
+    "id": "H001",
+    "name": "Metro Trauma Center",
+    "distance_km": 1.5,
+    "specialties": ["Neuro Trauma", "Cardiac Surgery", "General Surgery"],
+    "icu_beds_available": 6,
+    "er_wait_time_minutes": 5,
+    "trauma_center_level": 1
+  },
+  {
+    "id": "H002",
+    "name": "City General Hospital",
+    "distance_km": 3.2,
+    "specialties": ["Neuro Trauma", "Cardiology", "Orthopedics"],
+    "icu_beds_available": 4,
+    "er_wait_time_minutes": 8,
+    "trauma_center_level": 1
+  },
+  {
+    "id": "H003",
+    "name": "Central Memorial Hospital",
+    "distance_km": 5.0,
+    "specialties": ["Burns", "Cardiology", "Cardiac Surgery"],
+    "icu_beds_available": 3,
+    "er_wait_time_minutes": 12,
+    "trauma_center_level": 1
+  },
+  {
+    "id": "H004",
+    "name": "Riverside Medical Center",
+    "distance_km": 8.0,
+    "specialties": ["Orthopedics", "General Surgery", "Pulmonology"],
+    "icu_beds_available": 2,
+    "er_wait_time_minutes": 15,
+    "trauma_center_level": 2
+  },
+  {
+    "id": "H005",
+    "name": "County Hospital",
+    "distance_km": 12.0,
+    "specialties": ["General Surgery", "Pediatrics"],
+    "icu_beds_available": 0,
+    "er_wait_time_minutes": 25,
+    "trauma_center_level": 3
+  }
+]

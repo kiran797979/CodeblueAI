@@ -1,0 +1,963 @@
+@import 'leaflet/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --border: #dde1e7;
+  --primary: #1a56db;
+  --primary-dark: #1341b0;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --danger: #c0392b;
+  --success: #27ae60;
+  --warning: #e67e22;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 32px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulse-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--danger);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(192, 57, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0);
+  }
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+  color: var(--text-main);
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(39, 174, 96, 0.5);
+}
+
+.tagline {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.form-panel {
+  width: 420px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form input,
+.form select {
+  height: 44px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-main);
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form input::placeholder {
+  color: var(--text-muted);
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.btn-dispatch {
+  height: 48px;
+  background: var(--primary);
+  color: white;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.btn-dispatch:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.btn-dispatch:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.results-panel {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.loading-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.loading-pulse {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.error-banner {
+  background: var(--danger);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: -8px 0 20px 0;
+}
+
+.triage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.triage-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.triage-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.data-font {
+  font-family: 'Space Mono', monospace;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+}
+
+.badge-red {
+  background: #c0392b;
+}
+
+.badge-orange {
+  background: #e67e22;
+}
+
+.badge-green {
+  background: #27ae60;
+}
+
+.icu-yes {
+  font-weight: 700;
+  color: var(--danger);
+}
+
+.icu-no {
+  font-weight: 700;
+  color: var(--success);
+}
+
+.hospital-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hospital-card {
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  position: relative;
+}
+
+.hospital-rank-1 {
+  border-left: 4px solid #2980b9;
+  background: #f0f7ff;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+}
+
+.rank-1 {
+  color: #2980b9;
+}
+
+.rank-other {
+  color: var(--text-muted);
+}
+
+.hospital-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.hospital-score {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.stat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stat-pill {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  background: var(--bg);
+  border-radius: 6px;
+  color: var(--text-main);
+}
+
+.hospital-reason {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* =============================================================================
+   Staggered reveal
+   ============================================================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-eta {
+  animation: fadeInUp 0.5s ease 0s both;
+}
+.card-survival {
+  animation: fadeInUp 0.5s ease 0.15s both;
+}
+.card-triage {
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+.card-alert {
+  animation: fadeInUp 0.5s ease 0.45s both;
+}
+.card-hospitals {
+  animation: fadeInUp 0.5s ease 0.6s both;
+}
+.card-map {
+  animation: fadeInUp 0.5s ease 0.75s both;
+}
+
+/* =============================================================================
+   ETA Timer card
+   ============================================================================= */
+.card-eta {
+  background: #0f172a;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  width: 100%;
+  animation: fadeInUp 0.5s ease 0s both, timerPulse 2s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0% {
+    border-color: rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+  50% {
+    border-color: rgba(239, 68, 68, 0.8);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+  }
+  100% {
+    border-color: rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.eta-row1 {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.eta-timer {
+  font-family: 'Space Mono', monospace;
+  font-size: 56px;
+  font-weight: 700;
+  color: #ef4444;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.eta-timer.eta-arrived {
+  color: #22c55e;
+  text-shadow: none;
+}
+
+.eta-row3 {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.eta-divider {
+  height: 1px;
+  background: #1e293b;
+  margin: 16px 0;
+}
+
+.eta-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  text-align: left;
+}
+
+.eta-label {
+  font-size: 10px;
+  color: #475569;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.eta-value {
+  font-size: 14px;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* =============================================================================
+   Survival Impact card
+   ============================================================================= */
+.card-survival {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #1a56db;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.survival-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.survival-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.survival-badge {
+  font-size: 13px;
+  color: #16a34a;
+  font-weight: 700;
+  background: #dcfce7;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.survival-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 16px 0;
+}
+
+.survival-row {
+  margin-bottom: 4px;
+}
+
+.survival-row-label {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.survival-label-bold {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.survival-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.survival-bar-container {
+  flex: 1;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.survival-bar-red {
+  background: #fee2e2;
+}
+
+.survival-bar-green {
+  background: #dcfce7;
+}
+
+.survival-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.5s ease;
+}
+
+.survival-fill-red {
+  background: #ef4444;
+  transition-delay: 0.3s;
+}
+
+.survival-fill-green {
+  background: #16a34a;
+  transition-delay: 0.5s;
+}
+
+.survival-time {
+  font-size: 12px;
+  min-width: 48px;
+}
+
+.survival-time-red {
+  color: #ef4444;
+}
+
+.survival-time-green {
+  color: #16a34a;
+}
+
+.survival-gap {
+  height: 16px;
+}
+
+.survival-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.survival-stat {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.survival-stat-blue {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.survival-stat-green {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.survival-stat-pink {
+  background: #fff1f2;
+  color: #be123c;
+}
+
+/* =============================================================================
+   Pre-Arrival Alert card
+   ============================================================================= */
+.card-alert {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-left: 4px solid #16a34a;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.alert-header {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #15803d;
+  font-weight: 700;
+}
+
+.alert-hospital {
+  font-size: 16px;
+  font-weight: 600;
+  color: #166534;
+  margin-top: 4px;
+}
+
+.alert-divider {
+  height: 1px;
+  background: #bbf7d0;
+  margin: 12px 0;
+}
+
+.alert-checklist {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-item {
+  font-size: 14px;
+  color: #166534;
+  padding: 6px 0;
+  border-bottom: 1px solid #dcfce7;
+}
+
+.alert-item-last {
+  border-bottom: none;
+}
+
+.alert-footer {
+  font-size: 12px;
+  color: #16a34a;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* =============================================================================
+   Severity borders (triage card)
+   ============================================================================= */
+.triage-critical {
+  border: 2px solid #ef4444 !important;
+  animation: fadeInUp 0.5s ease 0.3s both, criticalFlash 1.2s ease infinite !important;
+}
+
+@keyframes criticalFlash {
+  0% {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+  }
+  100% {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
+  }
+}
+
+.triage-serious {
+  border: 2px solid #f57c00 !important;
+  box-shadow: 0 0 8px rgba(245, 124, 0, 0.15);
+}
+
+.triage-stable {
+  border: 2px solid #16a34a !important;
+  box-shadow: 0 0 8px rgba(22, 163, 74, 0.15);
+}
+
+/* =============================================================================
+   Live Dispatch Map
+   ============================================================================= */
+.card-map {
+  overflow: hidden;
+}
+
+.map-card-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #6b7280;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.map-container {
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.leaflet-map {
+  height: 100%;
+  width: 100%;
+}
+
+.amb-dot {
+  width: 20px;
+  height: 20px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+  animation: pulse 1s ease infinite;
+}
+
+.hosp-dot {
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* =============================================================================
+   Responsive: Tablet
+   ============================================================================= */
+@media (max-width: 1024px) {
+  .form-panel {
+    width: 360px;
+  }
+}
+
+/* =============================================================================
+   Responsive: Mobile
+   ============================================================================= */
+@media (max-width: 767px) {
+  .header {
+    padding: 16px 20px;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brand-text {
+    font-size: 20px;
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+  }
+
+  .layout {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .form-panel {
+    width: 100%;
+    flex-shrink: unset;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+    overflow-y: visible;
+  }
+
+  .form {
+    gap: 16px;
+  }
+
+  .form input,
+  .form select {
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .btn-dispatch {
+    height: 52px;
+    min-height: 44px;
+  }
+
+  .results-panel {
+    padding: 16px;
+    overflow-y: visible;
+  }
+
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .triage-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .triage-value {
+    font-size: 0.9rem;
+  }
+
+  .hospital-list {
+    gap: 12px;
+  }
+
+  .hospital-card {
+    padding: 16px;
+    width: 100%;
+  }
+
+  .hospital-name {
+    font-size: 16px;
+  }
+
+  .hospital-score {
+    font-size: 13px;
+  }
+
+  .rank-badge {
+    top: 16px;
+    left: 16px;
+    right: auto;
+    font-size: 0.9rem;
+  }
+
+  .stat-pills {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .stat-pill {
+    min-width: fit-content;
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .hospital-reason {
+    font-size: 0.85rem;
+  }
+
+  .loading-message {
+    min-height: 120px;
+  }
+
+  .loading-pulse {
+    font-size: 14px;
+  }
+
+  .error-banner {
+    font-size: 14px;
+    padding: 14px 16px;
+  }
+
+  .map-container {
+    height: 220px;
+  }
+}
+
+/* =============================================================================
+   Responsive: Mobile Small
+   ============================================================================= */
+@media (max-width: 480px) {
+  .header {
+    padding: 14px 16px;
+  }
+
+  .brand-text {
+    font-size: 20px;
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+  }
+
+  .form-panel {
+    padding: 20px 16px;
+  }
+
+  .form {
+    gap: 16px;
+  }
+
+  .results-panel {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .triage-grid {
+    gap: 12px;
+  }
+
+  .rank-badge {
+    font-size: 0.85rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 12px;
+    left: 12px;
+    right: auto;
+  }
+
+  .hospital-name {
+    font-size: 16px;
+  }
+
+  .stat-pill {
+    font-size: 12px;
+  }
+}
