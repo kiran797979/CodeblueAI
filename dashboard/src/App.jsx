@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
   })
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env.VITE_API_URL || 'https://codeblueai-1.onrender.com'
 
 const TRAUMA_TYPES = [
   { value: 'head_injury', label: 'Head Injury' },
