@@ -6,7 +6,7 @@ const fs = require('fs');
 
 // 2. App setup
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // 3. Load hospitals safely with try/catch
 let hospitals = [];

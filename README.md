@@ -99,6 +99,14 @@ CodeblueAI/
 
 ---
 
+## 🌐 Deploy
+
+The app is ready to deploy: backend uses `PORT` from the environment; the frontend uses `VITE_API_URL` for the API base URL.
+
+**Quick option:** Use [Render](https://render.com) (free tier) — deploy backend as a **Web Service** and frontend as a **Static Site**. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for step-by-step instructions (Render, Vercel, Railway).
+
+---
+
 ## 🔄 Updating the README
 To regenerate this README from the project (API routes, structure, repo URL, ports):
 
